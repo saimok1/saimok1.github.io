@@ -40,7 +40,7 @@
 
             <!-- Question Screen -->
             <div id="question-screen" class="hidden fade-in">
-                <h2 class="text-xl font-medium text-gray-800 mb-6 text-center bg-gray-100 py-2 rounded-lg" id="question-title"></h2>
+                <h2 class="text-lg md:text-xl font-medium text-gray-800 mb-6 text-center bg-gray-100 py-3 px-4 rounded-lg leading-relaxed" id="question-title"></h2>
                 
                 <div id="options-container" class="space-y-3">
                     <!-- Options will be injected here via JS -->
@@ -125,7 +125,7 @@
         function showQuestion() {
             const q = questions[currentQuestion];
             document.getElementById('progress-text').innerText = `ข้อที่ ${currentQuestion + 1} จาก ${questions.length}`;
-            document.getElementById('question-title').innerText = `ข้อ ${q.id}`;
+            document.getElementById('question-title').innerText = `เลือกคำตอบที่คุณคิดว่าเป็นตัวคุณมากที่สุด`;
             
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
