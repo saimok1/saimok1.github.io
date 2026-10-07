@@ -2,11 +2,12 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>แบบสำรวจตัวเองในการตระหนักรู้ที่หลากหลายมิติมากขึ้น</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
         body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -14,19 +15,16 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Container -->
     <div class="bg-white max-w-lg w-full rounded-2xl shadow-xl overflow-hidden fade-in" id="app-container">
-        
-        <!-- Header -->
+
         <div class="bg-indigo-600 p-6 text-center text-white">
             <h1 class="text-xl md:text-2xl font-semibold leading-tight">แบบสำรวจตัวเองในการตระหนักรู้<br>ที่หลากหลายมิติมากขึ้น</h1>
             <p class="text-sm mt-2 opacity-90" id="progress-text">ค้นหาตัวตนของคุณ</p>
         </div>
 
-        <!-- Content Area -->
         <div class="p-6 md:p-8" id="content-area">
-            
-            <!-- Intro Screen -->
+
+            <!-- Intro -->
             <div id="intro-screen" class="fade-in">
                 <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6 rounded-r-lg">
                     <p class="text-gray-800">
@@ -38,15 +36,10 @@
                 </button>
             </div>
 
-            <!-- Question Screen -->
+            <!-- Question -->
             <div id="question-screen" class="hidden fade-in">
                 <h2 class="text-lg md:text-xl font-medium text-gray-800 mb-6 text-center bg-gray-100 py-3 px-4 rounded-lg leading-relaxed" id="question-title"></h2>
-                
-                <div id="options-container" class="space-y-3">
-                    <!-- Options will be injected here via JS -->
-                </div>
-
-                <!-- Back Button -->
+                <div id="options-container" class="space-y-3"></div>
                 <div class="mt-6 flex justify-start">
                     <button id="back-btn" onclick="goBack()" class="hidden text-gray-500 hover:text-indigo-600 font-medium transition flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
@@ -55,7 +48,7 @@
                 </div>
             </div>
 
-            <!-- Result Screen -->
+            <!-- Result -->
             <div id="result-screen" class="hidden fade-in">
                 <div class="text-center mb-6">
                     <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 mb-4 shadow-sm">
@@ -64,9 +57,10 @@
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">ผลลัพธ์ของคุณคือ</h2>
                     <h3 class="text-xl font-bold text-indigo-700" id="result-title"></h3>
                 </div>
-                
+
                 <div class="bg-gray-50 p-5 rounded-xl border border-gray-100 mb-8 shadow-inner">
-                    <p class="text-gray-700 leading-relaxed text-justify indent-8" id="result-desc"></p>
+                    <!-- แก้: เอา text-justify indent-8 ออก ใช้ text-left + whitespace-pre-wrap -->
+                    <p class="text-gray-700 leading-relaxed text-left whitespace-pre-wrap" id="result-desc"></p>
                 </div>
 
                 <div class="text-center">
@@ -76,7 +70,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 
     <script>
@@ -93,28 +86,28 @@
             { id: 10, options: [{text: "ก) เป็นผู้นำ", type: "D"}, {text: "ข) ดึงดูดใจ มีเสน่ห์", type: "I"}, {text: "ค) หลีกเลี่ยงความขัดแย้ง", type: "S"}, {text: "ง) ชอบตรวจสอบ", type: "C"}] }
         ];
 
-        // อัปเดตข้อมูลจากรูปภาพที่แนบมา
+        // เว้น 2 ช่องระหว่างวลี (แสดงผลได้เพราะใช้ whitespace-pre-wrap)
         const resultData = {
-            "D": { 
-                title: "สไตล์ D : Dominance (นักปฏิบัติ)", 
-                desc: "มีลักษณะที่เห็นได้ชัดเจน คือ ตรงไปตรงมา มั่นใจเด็ดขาด ตัดสินใจและจัดการงานเรื่องต่าง ๆ ได้อย่างรวดเร็ว มีความคล่องตัวสูง และกล้าที่จะเผชิญหน้ากับผู้คน หรืออุปสรรคต่าง ๆ พร้อมเปิดรับโอกาสและความท้าทายใหม่ ๆ ที่จะเข้ามาอยู่เสมอ แต่โดยนิสัยจะไม่ชอบใจนัก หากถูกบังคับหรือถูกเอารัดเอาเปรียบ ถูกตีกรอบจนขาดอิสระในการคิดและทำงาน หรือผลงานที่รับผิดชอบ ไม่เป็นไปตามเป้าหมายและอาจจะรู้สึกแย่มาก ๆ เมื่อต้องร่วมทีมทำงานกับคนที่เอาแต่พูด ไม่ลงมือทำ" 
+            "D": {
+                title: "สไตล์ D : Dominance (คุณอำนาจ)",
+                desc: "มีลักษณะที่เห็นได้ชัดเจน คือ ตรงไปตรงมา มั่นใจเด็ดขาด ตัดสินใจและจัดการงานเรื่องต่างๆได้อย่างรวดเร็ว  มีความคล่องตัวสูง และกล้าที่จะเผชิญหน้ากับผู้คน หรืออุปสรรคต่างๆ  พร้อมเปิดรับโอกาสและความท้าทายใหม่ๆที่จะเข้ามาอยู่เสมอ  แต่โดยนิสัยจะไม่ชอบใจนักหากถูกบังคับหรือถูกเอารัดเอาเปรียบ ถูกตีกรอบจนขาดอิสระในการคิดและทำงาน หรือผลงานที่รับผิดชอบไม่เป็นไปตามเป้าหมาย  และอาจจะรู้สึกแย่มากๆเมื่อต้องร่วมทีมทำงานกับคนที่เอาแต่พูด ไม่ลงมือทำ"
             },
-            "I": { 
-                title: "สไตล์ I : Influence (นักเจรจา)", 
-                desc: "ผู้สร้างบรรยากาศเฮฮาสนุกสนาน ชอบสไตล์การทำงานที่ไม่เป็นทางการ เป็นกันเอง สร้างความสัมพันธ์กับผู้อื่นเสมอ ทักทายด้วยรอยยิ้ม พูดเก่ง ช่างเจรจา ชอบเข้าสังคมพบปะผู้คน มีความเป็นตัวของตัวเองสูง พร้อมที่จะหยิบยื่นมิตรภาพที่ดีให้กับคนอื่น แม้จะไม่เคยรู้จักกันมาก่อน ชอบดูแลคนรอบตัวอย่างมีส่วนร่วม มีความสามารถในการโน้มน้าวจูงใจคนเก่ง ไอเดียดีและมีความคิดสร้างสรรค์ เป็นคนมองโลกในแง่ดี แต่หากจำเป็นต้องอยู่ท่ามกลางผู้คนที่มองโลกในแง่ร้าย คนสไตล์นี้ก็จะรู้สึกไม่ค่อยชอบใจซักเท่าไหร่" 
+            "I": {
+                title: "สไตล์ I : Influence (คุณบันเทิง)",
+                desc: "ผู้สร้างบรรยากาศเฮฮาสนุกสนาน  ชอบสไตล์การทำงานที่ไม่เป็นทางการ เป็นกันเอง  สร้างความสัมพันธ์กับผู้อื่นเสมอ ทักทายด้วยรอยยิ้ม  พูดเก่ง ช่างเจรจา  ชอบเข้าสังคมพบปะผู้คน  มีความเป็นตัวของตัวเองสูงพร้อมที่จะหยิบยื่นมิตรภาพที่ดีให้กับคนอื่นแม้จะไม่เคยรู้จักกันมาก่อน  ชอบดูแลคนรอบตัวอย่างมีส่วนร่วม  มีความสามารถในการโน้มน้าวจูงใจคนเก่ง ไอเดียดีและมีความคิดสร้างสรรค์  เป็นคนมองโลกในแง่ดี  แต่หากจำเป็นต้องอยู่ท่ามกลางผู้คนที่มองโลกในแง่ร้าย คนสไตล์นี้ก็จะรู้สึกไม่ค่อยชอบใจซักเท่าไหร่"
             },
-            "S": { 
-                title: "สไตล์ S : Steadiness (นักประสาน)", 
-                desc: "เห็นได้ชัดเจนจากลักษณะเป็นคนใจเย็น สุขุม สุภาพ เป็นผู้ฟังที่ดี มีความอดทนสูง พร้อมที่จะเข้าอกเข้าใจหรือเห็นใจผู้อื่นเสมอ เป็นผู้สนับสนุนที่ดีและอยากช่วยเหลือผู้อื่นเสมอ ให้เกียรติผู้คนรอบกาย พร้อมที่จะเสียสละหรือทำงานเป็นผู้อยู่เบื้องหลังแบบปิดทองหลังพระ มักหลีกเลี่ยงความขัดแย้ง เป็นนักไกล่เกลี่ย สร้างบรรยากาศความปรองดอง ชอบทำงานตามแบบแผนค่อยเป็นค่อยไป ขี้เกรงใจไม่กล้าปฏิเสธ มักไม่ชอบสถานการณ์ที่ต้องตัดสินใจเร่งด่วน ต้องออกหน้าหรือต้องแข่งขันกับใคร" 
+            "S": {
+                title: "สไตล์ S : Steadiness (คุณสุขุม)",
+                desc: "เห็นได้ชัดเจนจากลักษณะเป็นคนใจเย็น สุขุม สุภาพ เป็นผู้ฟังที่ดี มีความอดทนสูง  พร้อมที่จะเข้าอกเข้าใจหรือเห็นใจผู้อื่นเสมอ  เป็นผู้สนับสนุนที่ดีและอยากช่วยเหลือผู้อื่นเสมอ  ให้เกียรติผู้คนรอบกาย  พร้อมที่จะเสียสละหรือทำงานเป็นผู้อยู่เบื้องหลังแบบปิดทองหลังพระ  มักหลีกเลี่ยงความขัดแย้ง เป็นนักไกล่เกลี่ยสร้างบรรยากาศความปรองดอง  ชอบทำงานตามแบบแผนค่อยเป็นค่อยไป  ขี้เกรงใจไม่กล้าปฏิเสธ  มักไม่ชอบสถานการณ์ที่ต้องตัดสินใจเร่งด่วน  ต้องออกหน้าหรือต้องแข่งขันกับใคร"
             },
-            "C": { 
-                title: "สไตล์ C : Conscientious (นักวิเคราะห์)", 
-                desc: "เจ้าหลักการ ชอบการสังเกต เก็บข้อมูล เน้นการนำข้อเท็จจริงมาเปรียบเทียบหาความถูกต้อง หาแนวทางป้องกันความเสี่ยงและสร้างความมั่นคง บุคลิกโดยรวมดูนิ่งเงียบจริงจังกับการทำงาน สร้างผลงานด้วยความสมบูรณ์แบบ สามารถคิดวิเคราะห์สิ่งต่าง ๆ ด้วยหลักการเหตุผลและมีวิธีการอย่างเป็นระบบ เน้นทำงานด้วยความถูกต้องแม่นยำ ไม่ถนัดนักหากต้องทำงานเร่งด่วนแบบไม่มีข้อมูลสนับสนุน หรือต้องประสานงานกับผู้คนหมู่มาก หรือต้องอยู่ในสถานการณ์ที่ตนเองคาดการณ์ล่วงหน้าไม่ได้" 
+            "C": {
+                title: "สไตล์ C : Conscientious (คุณละเอียด)",
+                desc: "เจ้าหลักการ ชอบการสังเกต เก็บข้อมูล  เน้นการนำข้อเท็จจริงมาเปรียบเทียบหาความถูกต้อง  หาแนวทางป้องกันความเสี่ยงและสร้างความมั่นคง  บุคลิกโดยรวมดูนิ่งเงียบจริงจังกับการทำงาน  สร้างผลงานด้วยความสมบูรณ์แบบ  สามารถคิดวิเคราะห์สิ่งต่างๆ ด้วยหลักการเหตุผลและมีวิธีการอย่างเป็นระบบ  เน้นทำงานด้วยความถูกต้องแม่นยำ  ไม่ถนัดนักหากต้องทำงานเร่งด่วนแบบไม่มีข้อมูลสนับสนุน หรือต้องประสานงานกับผู้คนหมู่มาก  หรือต้องอยู่ในสถานการณ์ที่ตนเองคาดการณ์ล่วงหน้าไม่ได้"
             }
         };
 
         let currentQuestion = 0;
-        let userAnswers = new Array(questions.length).fill(null); // เก็บคำตอบแต่ละข้อเพื่อรองรับการกด Back
+        let userAnswers = new Array(questions.length).fill(null);
 
         function startQuiz() {
             document.getElementById('intro-screen').classList.add('hidden');
@@ -126,13 +119,11 @@
             const q = questions[currentQuestion];
             document.getElementById('progress-text').innerText = `ข้อที่ ${currentQuestion + 1} จาก ${questions.length}`;
             document.getElementById('question-title').innerText = `เลือกคำตอบที่คุณคิดว่าเป็นตัวคุณมากที่สุด`;
-            
+
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
-            
-            // Re-animate options
             optionsContainer.classList.remove('fade-in');
-            void optionsContainer.offsetWidth; // trigger reflow
+            void optionsContainer.offsetWidth;
             optionsContainer.classList.add('fade-in');
 
             q.options.forEach(opt => {
@@ -143,24 +134,15 @@
                 optionsContainer.appendChild(btn);
             });
 
-            // จัดการปุ่มย้อนกลับ
             const backBtn = document.getElementById('back-btn');
-            if (currentQuestion > 0) {
-                backBtn.classList.remove('hidden');
-            } else {
-                backBtn.classList.add('hidden');
-            }
+            backBtn.classList.toggle('hidden', currentQuestion === 0);
         }
 
         function selectOption(type) {
-            userAnswers[currentQuestion] = type; // บันทึกคำตอบ
+            userAnswers[currentQuestion] = type;
             currentQuestion++;
-            
-            if (currentQuestion < questions.length) {
-                showQuestion();
-            } else {
-                showResult();
-            }
+            if (currentQuestion < questions.length) showQuestion();
+            else showResult();
         }
 
         function goBack() {
@@ -175,13 +157,9 @@
             document.getElementById('result-screen').classList.remove('hidden');
             document.getElementById('progress-text').innerText = "ประมวลผลเสร็จสิ้น";
 
-            // คำนวณคะแนนใหม่ทั้งหมดจาก Array เพื่อความแม่นยำ (กรณีแก้คำตอบ)
             let finalScores = { "D": 0, "I": 0, "S": 0, "C": 0 };
-            userAnswers.forEach(answer => {
-                if (answer) finalScores[answer]++;
-            });
+            userAnswers.forEach(answer => { if (answer) finalScores[answer]++; });
 
-            // หาผลลัพธ์ที่ได้คะแนนสูงสุด
             let highestType = "D";
             let maxScore = finalScores["D"];
             for (const type in finalScores) {
